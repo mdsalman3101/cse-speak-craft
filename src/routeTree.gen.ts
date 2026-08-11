@@ -19,7 +19,10 @@ import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TrialRouteImport } from './routes/trial'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedLessonsRouteImport } from './routes/_authenticated/lessons'
+import { Route as AuthenticatedProgressRouteImport } from './routes/_authenticated/progress'
+import { Route as AuthenticatedShadowingRouteImport } from './routes/_authenticated/shadowing'
 import { Route as AuthenticatedSpeakingRouteImport } from './routes/_authenticated/speaking'
+import { Route as AuthenticatedTranslationRouteImport } from './routes/_authenticated/translation'
 import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
 import { Route as AuthenticatedWritingRouteImport } from './routes/_authenticated/writing'
 import { Route as AuthenticatedLessonLessonIdRouteImport } from './routes/_authenticated/lesson.$lessonId'
@@ -73,11 +76,27 @@ const AuthenticatedLessonsRoute = AuthenticatedLessonsRouteImport.update({
   path: '/lessons',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProgressRoute = AuthenticatedProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedShadowingRoute = AuthenticatedShadowingRouteImport.update({
+  id: '/shadowing',
+  path: '/shadowing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSpeakingRoute = AuthenticatedSpeakingRouteImport.update({
   id: '/speaking',
   path: '/speaking',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTranslationRoute =
+  AuthenticatedTranslationRouteImport.update({
+    id: '/translation',
+    path: '/translation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedVocabularyRoute = AuthenticatedVocabularyRouteImport.update({
   id: '/vocabulary',
   path: '/vocabulary',
@@ -105,7 +124,10 @@ export interface FileRoutesByFullPath {
   '/trial': typeof TrialRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lessons': typeof AuthenticatedLessonsRoute
+  '/progress': typeof AuthenticatedProgressRoute
+  '/shadowing': typeof AuthenticatedShadowingRoute
   '/speaking': typeof AuthenticatedSpeakingRoute
+  '/translation': typeof AuthenticatedTranslationRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/writing': typeof AuthenticatedWritingRoute
   '/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
@@ -120,7 +142,10 @@ export interface FileRoutesByTo {
   '/trial': typeof TrialRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lessons': typeof AuthenticatedLessonsRoute
+  '/progress': typeof AuthenticatedProgressRoute
+  '/shadowing': typeof AuthenticatedShadowingRoute
   '/speaking': typeof AuthenticatedSpeakingRoute
+  '/translation': typeof AuthenticatedTranslationRoute
   '/vocabulary': typeof AuthenticatedVocabularyRoute
   '/writing': typeof AuthenticatedWritingRoute
   '/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
@@ -137,7 +162,10 @@ export interface FileRoutesById {
   '/trial': typeof TrialRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/lessons': typeof AuthenticatedLessonsRoute
+  '/_authenticated/progress': typeof AuthenticatedProgressRoute
+  '/_authenticated/shadowing': typeof AuthenticatedShadowingRoute
   '/_authenticated/speaking': typeof AuthenticatedSpeakingRoute
+  '/_authenticated/translation': typeof AuthenticatedTranslationRoute
   '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
   '/_authenticated/writing': typeof AuthenticatedWritingRoute
   '/_authenticated/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
@@ -154,7 +182,10 @@ export interface FileRouteTypes {
     | '/trial'
     | '/dashboard'
     | '/lessons'
+    | '/progress'
+    | '/shadowing'
     | '/speaking'
+    | '/translation'
     | '/vocabulary'
     | '/writing'
     | '/lesson/$lessonId'
@@ -169,7 +200,10 @@ export interface FileRouteTypes {
     | '/trial'
     | '/dashboard'
     | '/lessons'
+    | '/progress'
+    | '/shadowing'
     | '/speaking'
+    | '/translation'
     | '/vocabulary'
     | '/writing'
     | '/lesson/$lessonId'
@@ -185,7 +219,10 @@ export interface FileRouteTypes {
     | '/trial'
     | '/_authenticated/dashboard'
     | '/_authenticated/lessons'
+    | '/_authenticated/progress'
+    | '/_authenticated/shadowing'
     | '/_authenticated/speaking'
+    | '/_authenticated/translation'
     | '/_authenticated/vocabulary'
     | '/_authenticated/writing'
     | '/_authenticated/lesson/$lessonId'
@@ -274,11 +311,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLessonsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/progress': {
+      id: '/_authenticated/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof AuthenticatedProgressRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/shadowing': {
+      id: '/_authenticated/shadowing'
+      path: '/shadowing'
+      fullPath: '/shadowing'
+      preLoaderRoute: typeof AuthenticatedShadowingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/speaking': {
       id: '/_authenticated/speaking'
       path: '/speaking'
       fullPath: '/speaking'
       preLoaderRoute: typeof AuthenticatedSpeakingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/translation': {
+      id: '/_authenticated/translation'
+      path: '/translation'
+      fullPath: '/translation'
+      preLoaderRoute: typeof AuthenticatedTranslationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/vocabulary': {
@@ -308,7 +366,10 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedLessonsRoute: typeof AuthenticatedLessonsRoute
+  AuthenticatedProgressRoute: typeof AuthenticatedProgressRoute
+  AuthenticatedShadowingRoute: typeof AuthenticatedShadowingRoute
   AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
+  AuthenticatedTranslationRoute: typeof AuthenticatedTranslationRoute
   AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
   AuthenticatedWritingRoute: typeof AuthenticatedWritingRoute
   AuthenticatedLessonLessonIdRoute: typeof AuthenticatedLessonLessonIdRoute
@@ -317,7 +378,10 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedLessonsRoute: AuthenticatedLessonsRoute,
+  AuthenticatedProgressRoute: AuthenticatedProgressRoute,
+  AuthenticatedShadowingRoute: AuthenticatedShadowingRoute,
   AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
+  AuthenticatedTranslationRoute: AuthenticatedTranslationRoute,
   AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
   AuthenticatedWritingRoute: AuthenticatedWritingRoute,
   AuthenticatedLessonLessonIdRoute: AuthenticatedLessonLessonIdRoute,
