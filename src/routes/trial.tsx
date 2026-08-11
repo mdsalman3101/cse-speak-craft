@@ -27,6 +27,18 @@ export const Route = createFileRoute("/trial")({
   component: TrialPage,
 });
 
+type VocabRow = {
+  id: string;
+  word: string;
+  pronunciation: string | null;
+  part_of_speech: string | null;
+  meaning: string;
+  hindi_meaning: string;
+  examples: string[];
+};
+
+type TranslationRow = { id: string; hindi: string; english: string };
+
 const trialQuery = {
   queryKey: ["trial-lesson"],
   queryFn: async () => {
@@ -107,17 +119,17 @@ function TrialPage() {
                 <CardTitle>Vocabulary preview</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {(data?.vocabulary ?? []).map((w: Record<string, unknown>) => (
-                  <div key={String(w.id)} className="rounded-lg border border-border p-4">
+                {((data?.vocabulary ?? []) as unknown as VocabRow[]).map((w) => (
+                  <div key={w.id} className="rounded-lg border border-border p-4">
                     <div className="flex flex-wrap items-baseline gap-2">
-                      <span className="font-display text-lg">{String(w.word)}</span>
-                      <span className="text-sm text-muted-foreground">{String(w.pronunciation)}</span>
-                      <Badge variant="outline">{String(w.part_of_speech)}</Badge>
+                      <span className="font-display text-lg">{w.word}</span>
+                      <span className="text-sm text-muted-foreground">{w.pronunciation}</span>
+                      <Badge variant="outline">{w.part_of_speech}</Badge>
                     </div>
-                    <p className="mt-1 text-sm">{String(w.meaning)}</p>
-                    <p className="text-sm text-muted-foreground">{String(w.hindi_meaning)}</p>
+                    <p className="mt-1 text-sm">{w.meaning}</p>
+                    <p className="text-sm text-muted-foreground">{w.hindi_meaning}</p>
                     <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-                      {(w.examples as string[]).map((ex) => (
+                      {(w.examples ?? []).map((ex) => (
                         <li key={ex}>{ex}</li>
                       ))}
                     </ul>
@@ -131,13 +143,13 @@ function TrialPage() {
                 <CardTitle>Translation practice</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {(data?.translations ?? []).map((t: Record<string, unknown>) => {
-                  const id = String(t.id);
+                {((data?.translations ?? []) as unknown as TranslationRow[]).map((t) => {
+                  const id = t.id;
                   return (
                     <div key={id} className="rounded-lg border border-border p-4">
-                      <p className="text-sm">{String(t.hindi)}</p>
+                      <p className="text-sm">{t.hindi}</p>
                       {revealed[id] ? (
-                        <p className="mt-2 text-sm font-medium text-success">{String(t.english)}</p>
+                        <p className="mt-2 text-sm font-medium text-success">{t.english}</p>
                       ) : (
                         <Button
                           size="sm"
