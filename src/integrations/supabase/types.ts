@@ -14,16 +14,834 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      badges: {
+        Row: {
+          code: string
+          description: string
+          icon: string
+          id: string
+          title: string
+        }
+        Insert: {
+          code: string
+          description?: string
+          icon?: string
+          id?: string
+          title: string
+        }
+        Update: {
+          code?: string
+          description?: string
+          icon?: string
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      certificates: {
+        Row: {
+          certificate_id: string
+          completion_date: string | null
+          created_at: string
+          id: string
+          program: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          certificate_id?: string
+          completion_date?: string | null
+          created_at?: string
+          id?: string
+          program?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          certificate_id?: string
+          completion_date?: string | null
+          created_at?: string
+          id?: string
+          program?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_posts: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          is_question: boolean
+          likes: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          is_question?: boolean
+          likes?: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_question?: boolean
+          likes?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_replies: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_replies_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_activity: {
+        Row: {
+          activity_date: string
+          id: string
+          minutes: number
+          tasks: Json
+          user_id: string
+          words_learned: number
+          xp: number
+        }
+        Insert: {
+          activity_date?: string
+          id?: string
+          minutes?: number
+          tasks?: Json
+          user_id: string
+          words_learned?: number
+          xp?: number
+        }
+        Update: {
+          activity_date?: string
+          id?: string
+          minutes?: number
+          tasks?: Json
+          user_id?: string
+          words_learned?: number
+          xp?: number
+        }
+        Relationships: []
+      }
+      exercises: {
+        Row: {
+          answer: string
+          explanation: string | null
+          id: string
+          lesson_id: string | null
+          options: Json
+          question: string
+          sort_order: number
+          type: string
+        }
+        Insert: {
+          answer: string
+          explanation?: string | null
+          id?: string
+          lesson_id?: string | null
+          options?: Json
+          question: string
+          sort_order?: number
+          type?: string
+        }
+        Update: {
+          answer?: string
+          explanation?: string | null
+          id?: string
+          lesson_id?: string | null
+          options?: Json
+          question?: string
+          sort_order?: number
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercises_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lessons: {
+        Row: {
+          created_at: string
+          day_number: number
+          description: string
+          duration_minutes: number
+          id: string
+          is_free: boolean
+          listening_script: string | null
+          module_id: string | null
+          objective: string | null
+          shadowing_lines: Json
+          sort_order: number
+          speaking_prompt: string | null
+          title: string
+          video_url: string | null
+          week_number: number
+        }
+        Insert: {
+          created_at?: string
+          day_number: number
+          description?: string
+          duration_minutes?: number
+          id?: string
+          is_free?: boolean
+          listening_script?: string | null
+          module_id?: string | null
+          objective?: string | null
+          shadowing_lines?: Json
+          sort_order?: number
+          speaking_prompt?: string | null
+          title: string
+          video_url?: string | null
+          week_number?: number
+        }
+        Update: {
+          created_at?: string
+          day_number?: number
+          description?: string
+          duration_minutes?: number
+          id?: string
+          is_free?: boolean
+          listening_script?: string | null
+          module_id?: string | null
+          objective?: string | null
+          shadowing_lines?: Json
+          sort_order?: number
+          speaking_prompt?: string | null
+          title?: string
+          video_url?: string | null
+          week_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lessons_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      live_sessions: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          meeting_link: string | null
+          mentor_id: string | null
+          mentor_name: string
+          session_date: string
+          session_time: string
+          status: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          meeting_link?: string | null
+          mentor_id?: string | null
+          mentor_name?: string
+          session_date: string
+          session_time?: string
+          status?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          meeting_link?: string | null
+          mentor_id?: string | null
+          mentor_name?: string
+          session_date?: string
+          session_time?: string
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      modules: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string | null
+          id: string
+          number: number
+          sort_order: number
+          tier: number
+          tier_name: string
+          title: string
+          week_end: number
+          week_start: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          icon?: string | null
+          id?: string
+          number: number
+          sort_order?: number
+          tier: number
+          tier_name?: string
+          title: string
+          week_end: number
+          week_start: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string | null
+          id?: string
+          number?: number
+          sort_order?: number
+          tier?: number
+          tier_name?: string
+          title?: string
+          week_end?: number
+          week_start?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          branch: string | null
+          college: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          target_role: string | null
+          updated_at: string
+          year_of_study: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          branch?: string | null
+          college?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id: string
+          target_role?: string | null
+          updated_at?: string
+          year_of_study?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          branch?: string | null
+          college?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          target_role?: string | null
+          updated_at?: string
+          year_of_study?: number | null
+        }
+        Relationships: []
+      }
+      progress: {
+        Row: {
+          completed: boolean
+          completion_percentage: number
+          created_at: string
+          id: string
+          last_accessed: string
+          lesson_id: string
+          minutes_spent: number
+          quiz_score: number | null
+          sections_done: Json
+          user_id: string
+          video_position: number
+        }
+        Insert: {
+          completed?: boolean
+          completion_percentage?: number
+          created_at?: string
+          id?: string
+          last_accessed?: string
+          lesson_id: string
+          minutes_spent?: number
+          quiz_score?: number | null
+          sections_done?: Json
+          user_id: string
+          video_position?: number
+        }
+        Update: {
+          completed?: boolean
+          completion_percentage?: number
+          created_at?: string
+          id?: string
+          last_accessed?: string
+          lesson_id?: string
+          minutes_spent?: number
+          quiz_score?: number | null
+          sections_done?: Json
+          user_id?: string
+          video_position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progress_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resources: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          difficulty: string
+          id: string
+          is_preview: boolean
+          module_number: number | null
+          title: string
+          type: string
+        }
+        Insert: {
+          category?: string
+          content?: string
+          created_at?: string
+          difficulty?: string
+          id?: string
+          is_preview?: boolean
+          module_number?: number | null
+          title: string
+          type?: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          difficulty?: string
+          id?: string
+          is_preview?: boolean
+          module_number?: number | null
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      session_registrations: {
+        Row: {
+          created_at: string
+          id: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_registrations_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "live_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      speaking_submissions: {
+        Row: {
+          audio_url: string | null
+          created_at: string
+          duration_seconds: number
+          feedback: Json | null
+          id: string
+          lesson_id: string | null
+          mentor_feedback: string | null
+          prompt: string
+          score: number | null
+          status: string
+          transcript: string | null
+          user_id: string
+        }
+        Insert: {
+          audio_url?: string | null
+          created_at?: string
+          duration_seconds?: number
+          feedback?: Json | null
+          id?: string
+          lesson_id?: string | null
+          mentor_feedback?: string | null
+          prompt: string
+          score?: number | null
+          status?: string
+          transcript?: string | null
+          user_id: string
+        }
+        Update: {
+          audio_url?: string | null
+          created_at?: string
+          duration_seconds?: number
+          feedback?: Json | null
+          id?: string
+          lesson_id?: string | null
+          mentor_feedback?: string | null
+          prompt?: string
+          score?: number | null
+          status?: string
+          transcript?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "speaking_submissions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      translation_attempts: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          is_correct: boolean
+          score: number
+          sentence_id: string
+          user_id: string
+        }
+        Insert: {
+          answer?: string
+          created_at?: string
+          id?: string
+          is_correct?: boolean
+          score?: number
+          sentence_id: string
+          user_id: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          is_correct?: boolean
+          score?: number
+          sentence_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "translation_attempts_sentence_id_fkey"
+            columns: ["sentence_id"]
+            isOneToOne: false
+            referencedRelation: "translation_sentences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      translation_sentences: {
+        Row: {
+          alternates: Json
+          category: string
+          difficulty: string
+          english: string
+          hindi: string
+          id: string
+          lesson_id: string | null
+          sort_order: number
+        }
+        Insert: {
+          alternates?: Json
+          category?: string
+          difficulty?: string
+          english: string
+          hindi: string
+          id?: string
+          lesson_id?: string | null
+          sort_order?: number
+        }
+        Update: {
+          alternates?: Json
+          category?: string
+          difficulty?: string
+          english?: string
+          hindi?: string
+          id?: string
+          lesson_id?: string | null
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "translation_sentences_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_badges: {
+        Row: {
+          badge_code: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_code: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_code?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_code_fkey"
+            columns: ["badge_code"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vocabulary: {
+        Row: {
+          category: string
+          created_at: string
+          difficulty: string
+          examples: Json
+          hindi_meaning: string
+          id: string
+          lesson_id: string | null
+          meaning: string
+          part_of_speech: string | null
+          pronunciation: string | null
+          related_words: Json
+          word: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          difficulty?: string
+          examples?: Json
+          hindi_meaning?: string
+          id?: string
+          lesson_id?: string | null
+          meaning: string
+          part_of_speech?: string | null
+          pronunciation?: string | null
+          related_words?: Json
+          word: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          difficulty?: string
+          examples?: Json
+          hindi_meaning?: string
+          id?: string
+          lesson_id?: string | null
+          meaning?: string
+          part_of_speech?: string | null
+          pronunciation?: string | null
+          related_words?: Json
+          word?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vocabulary_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vocabulary_progress: {
+        Row: {
+          id: string
+          status: string
+          times_correct: number
+          times_wrong: number
+          updated_at: string
+          user_id: string
+          vocabulary_id: string
+        }
+        Insert: {
+          id?: string
+          status?: string
+          times_correct?: number
+          times_wrong?: number
+          updated_at?: string
+          user_id: string
+          vocabulary_id: string
+        }
+        Update: {
+          id?: string
+          status?: string
+          times_correct?: number
+          times_wrong?: number
+          updated_at?: string
+          user_id?: string
+          vocabulary_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vocabulary_progress_vocabulary_id_fkey"
+            columns: ["vocabulary_id"]
+            isOneToOne: false
+            referencedRelation: "vocabulary"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      writing_submissions: {
+        Row: {
+          answer: string
+          created_at: string
+          exercise_type: string
+          feedback: Json | null
+          id: string
+          lesson_id: string | null
+          mentor_feedback: string | null
+          score: number | null
+          situation: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          exercise_type?: string
+          feedback?: Json | null
+          id?: string
+          lesson_id?: string | null
+          mentor_feedback?: string | null
+          score?: number | null
+          situation: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          exercise_type?: string
+          feedback?: Json | null
+          id?: string
+          lesson_id?: string | null
+          mentor_feedback?: string | null
+          score?: number | null
+          situation?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "writing_submissions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "mentor" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +968,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "mentor", "admin"],
+    },
   },
 } as const
