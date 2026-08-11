@@ -10,33 +10,233 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ModulesRouteImport } from './routes/modules'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as TrialRouteImport } from './routes/trial'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedLessonsRouteImport } from './routes/_authenticated/lessons'
+import { Route as AuthenticatedProgressRouteImport } from './routes/_authenticated/progress'
+import { Route as AuthenticatedShadowingRouteImport } from './routes/_authenticated/shadowing'
+import { Route as AuthenticatedSpeakingRouteImport } from './routes/_authenticated/speaking'
+import { Route as AuthenticatedTranslationRouteImport } from './routes/_authenticated/translation'
+import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
+import { Route as AuthenticatedWritingRouteImport } from './routes/_authenticated/writing'
+import { Route as AuthenticatedLessonLessonIdRouteImport } from './routes/_authenticated/lesson.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulesRoute = ModulesRouteImport.update({
+  id: '/modules',
+  path: '/modules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrialRoute = TrialRouteImport.update({
+  id: '/trial',
+  path: '/trial',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLessonsRoute = AuthenticatedLessonsRouteImport.update({
+  id: '/lessons',
+  path: '/lessons',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProgressRoute = AuthenticatedProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedShadowingRoute = AuthenticatedShadowingRouteImport.update({
+  id: '/shadowing',
+  path: '/shadowing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSpeakingRoute = AuthenticatedSpeakingRouteImport.update({
+  id: '/speaking',
+  path: '/speaking',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTranslationRoute =
+  AuthenticatedTranslationRouteImport.update({
+    id: '/translation',
+    path: '/translation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedVocabularyRoute = AuthenticatedVocabularyRouteImport.update({
+  id: '/vocabulary',
+  path: '/vocabulary',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedWritingRoute = AuthenticatedWritingRouteImport.update({
+  id: '/writing',
+  path: '/writing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLessonLessonIdRoute =
+  AuthenticatedLessonLessonIdRouteImport.update({
+    id: '/lesson/$lessonId',
+    path: '/lesson/$lessonId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/modules': typeof ModulesRoute
+  '/resources': typeof ResourcesRoute
+  '/roadmap': typeof RoadmapRoute
+  '/trial': typeof TrialRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/lessons': typeof AuthenticatedLessonsRoute
+  '/progress': typeof AuthenticatedProgressRoute
+  '/shadowing': typeof AuthenticatedShadowingRoute
+  '/speaking': typeof AuthenticatedSpeakingRoute
+  '/translation': typeof AuthenticatedTranslationRoute
+  '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/writing': typeof AuthenticatedWritingRoute
+  '/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/modules': typeof ModulesRoute
+  '/resources': typeof ResourcesRoute
+  '/roadmap': typeof RoadmapRoute
+  '/trial': typeof TrialRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/lessons': typeof AuthenticatedLessonsRoute
+  '/progress': typeof AuthenticatedProgressRoute
+  '/shadowing': typeof AuthenticatedShadowingRoute
+  '/speaking': typeof AuthenticatedSpeakingRoute
+  '/translation': typeof AuthenticatedTranslationRoute
+  '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/writing': typeof AuthenticatedWritingRoute
+  '/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/modules': typeof ModulesRoute
+  '/resources': typeof ResourcesRoute
+  '/roadmap': typeof RoadmapRoute
+  '/trial': typeof TrialRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/lessons': typeof AuthenticatedLessonsRoute
+  '/_authenticated/progress': typeof AuthenticatedProgressRoute
+  '/_authenticated/shadowing': typeof AuthenticatedShadowingRoute
+  '/_authenticated/speaking': typeof AuthenticatedSpeakingRoute
+  '/_authenticated/translation': typeof AuthenticatedTranslationRoute
+  '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/_authenticated/writing': typeof AuthenticatedWritingRoute
+  '/_authenticated/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/modules'
+    | '/resources'
+    | '/roadmap'
+    | '/trial'
+    | '/dashboard'
+    | '/lessons'
+    | '/progress'
+    | '/shadowing'
+    | '/speaking'
+    | '/translation'
+    | '/vocabulary'
+    | '/writing'
+    | '/lesson/$lessonId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/modules'
+    | '/resources'
+    | '/roadmap'
+    | '/trial'
+    | '/dashboard'
+    | '/lessons'
+    | '/progress'
+    | '/shadowing'
+    | '/speaking'
+    | '/translation'
+    | '/vocabulary'
+    | '/writing'
+    | '/lesson/$lessonId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/auth'
+    | '/modules'
+    | '/resources'
+    | '/roadmap'
+    | '/trial'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/lessons'
+    | '/_authenticated/progress'
+    | '/_authenticated/shadowing'
+    | '/_authenticated/speaking'
+    | '/_authenticated/translation'
+    | '/_authenticated/vocabulary'
+    | '/_authenticated/writing'
+    | '/_authenticated/lesson/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
+  ModulesRoute: typeof ModulesRoute
+  ResourcesRoute: typeof ResourcesRoute
+  RoadmapRoute: typeof RoadmapRoute
+  TrialRoute: typeof TrialRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +248,158 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modules': {
+      id: '/modules'
+      path: '/modules'
+      fullPath: '/modules'
+      preLoaderRoute: typeof ModulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trial': {
+      id: '/trial'
+      path: '/trial'
+      fullPath: '/trial'
+      preLoaderRoute: typeof TrialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/lessons': {
+      id: '/_authenticated/lessons'
+      path: '/lessons'
+      fullPath: '/lessons'
+      preLoaderRoute: typeof AuthenticatedLessonsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/progress': {
+      id: '/_authenticated/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof AuthenticatedProgressRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/shadowing': {
+      id: '/_authenticated/shadowing'
+      path: '/shadowing'
+      fullPath: '/shadowing'
+      preLoaderRoute: typeof AuthenticatedShadowingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/speaking': {
+      id: '/_authenticated/speaking'
+      path: '/speaking'
+      fullPath: '/speaking'
+      preLoaderRoute: typeof AuthenticatedSpeakingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/translation': {
+      id: '/_authenticated/translation'
+      path: '/translation'
+      fullPath: '/translation'
+      preLoaderRoute: typeof AuthenticatedTranslationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vocabulary': {
+      id: '/_authenticated/vocabulary'
+      path: '/vocabulary'
+      fullPath: '/vocabulary'
+      preLoaderRoute: typeof AuthenticatedVocabularyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/writing': {
+      id: '/_authenticated/writing'
+      path: '/writing'
+      fullPath: '/writing'
+      preLoaderRoute: typeof AuthenticatedWritingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/lesson/$lessonId': {
+      id: '/_authenticated/lesson/$lessonId'
+      path: '/lesson/$lessonId'
+      fullPath: '/lesson/$lessonId'
+      preLoaderRoute: typeof AuthenticatedLessonLessonIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedLessonsRoute: typeof AuthenticatedLessonsRoute
+  AuthenticatedProgressRoute: typeof AuthenticatedProgressRoute
+  AuthenticatedShadowingRoute: typeof AuthenticatedShadowingRoute
+  AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
+  AuthenticatedTranslationRoute: typeof AuthenticatedTranslationRoute
+  AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
+  AuthenticatedWritingRoute: typeof AuthenticatedWritingRoute
+  AuthenticatedLessonLessonIdRoute: typeof AuthenticatedLessonLessonIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedLessonsRoute: AuthenticatedLessonsRoute,
+  AuthenticatedProgressRoute: AuthenticatedProgressRoute,
+  AuthenticatedShadowingRoute: AuthenticatedShadowingRoute,
+  AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
+  AuthenticatedTranslationRoute: AuthenticatedTranslationRoute,
+  AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
+  AuthenticatedWritingRoute: AuthenticatedWritingRoute,
+  AuthenticatedLessonLessonIdRoute: AuthenticatedLessonLessonIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
+  ModulesRoute: ModulesRoute,
+  ResourcesRoute: ResourcesRoute,
+  RoadmapRoute: RoadmapRoute,
+  TrialRoute: TrialRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
