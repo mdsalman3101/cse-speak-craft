@@ -63,8 +63,9 @@ function TranslationPage() {
       await supabase.from("translation_attempts").insert({
         user_id: auth.user.id,
         sentence_id: current.id,
-        user_answer: value,
+        answer: value,
         score,
+        is_correct: score >= 60,
       });
       await logActivity({ minutes: 2, xp: 5 });
     }

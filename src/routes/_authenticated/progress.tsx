@@ -30,7 +30,9 @@ function ProgressPage() {
   const maxMinutes = Math.max(60, ...last14.map((r) => r.minutes));
   const completed = (progress.data ?? []).filter((p) => p.completed).length;
   const total = lessons.data?.length ?? 0;
-  const earnedIds = new Set((badges.data?.earned ?? []).map((b: Record<string, unknown>) => b["badge_id"]));
+  const earnedCodes = new Set(
+    ((badges.data?.earned ?? []) as unknown as { badge_code: string }[]).map((b) => b.badge_code),
+  );
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
@@ -116,7 +118,7 @@ function ProgressPage() {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
           {(badges.data?.all ?? []).map((b: Record<string, unknown>) => {
-            const earned = earnedIds.has(b["id"]);
+            const earned = earnedCodes.has(String(b["code"]));
             return (
               <div
                 key={String(b["id"])}

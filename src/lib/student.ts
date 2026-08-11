@@ -82,7 +82,7 @@ export const badgesQuery = {
   queryFn: async () => {
     const [all, earned] = await Promise.all([
       supabase.from("badges").select("*"),
-      supabase.from("user_badges").select("badge_id, earned_at"),
+      supabase.from("user_badges").select("badge_code, earned_at"),
     ]);
     return { all: all.data ?? [], earned: earned.data ?? [] };
   },
