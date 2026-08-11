@@ -19,6 +19,9 @@ import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TrialRouteImport } from './routes/trial'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedLessonsRouteImport } from './routes/_authenticated/lessons'
+import { Route as AuthenticatedSpeakingRouteImport } from './routes/_authenticated/speaking'
+import { Route as AuthenticatedVocabularyRouteImport } from './routes/_authenticated/vocabulary'
+import { Route as AuthenticatedWritingRouteImport } from './routes/_authenticated/writing'
 import { Route as AuthenticatedLessonLessonIdRouteImport } from './routes/_authenticated/lesson.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -70,6 +73,21 @@ const AuthenticatedLessonsRoute = AuthenticatedLessonsRouteImport.update({
   path: '/lessons',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSpeakingRoute = AuthenticatedSpeakingRouteImport.update({
+  id: '/speaking',
+  path: '/speaking',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedVocabularyRoute = AuthenticatedVocabularyRouteImport.update({
+  id: '/vocabulary',
+  path: '/vocabulary',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedWritingRoute = AuthenticatedWritingRouteImport.update({
+  id: '/writing',
+  path: '/writing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLessonLessonIdRoute =
   AuthenticatedLessonLessonIdRouteImport.update({
     id: '/lesson/$lessonId',
@@ -87,6 +105,9 @@ export interface FileRoutesByFullPath {
   '/trial': typeof TrialRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lessons': typeof AuthenticatedLessonsRoute
+  '/speaking': typeof AuthenticatedSpeakingRoute
+  '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/writing': typeof AuthenticatedWritingRoute
   '/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
 }
 export interface FileRoutesByTo {
@@ -99,6 +120,9 @@ export interface FileRoutesByTo {
   '/trial': typeof TrialRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lessons': typeof AuthenticatedLessonsRoute
+  '/speaking': typeof AuthenticatedSpeakingRoute
+  '/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/writing': typeof AuthenticatedWritingRoute
   '/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
 }
 export interface FileRoutesById {
@@ -113,6 +137,9 @@ export interface FileRoutesById {
   '/trial': typeof TrialRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/lessons': typeof AuthenticatedLessonsRoute
+  '/_authenticated/speaking': typeof AuthenticatedSpeakingRoute
+  '/_authenticated/vocabulary': typeof AuthenticatedVocabularyRoute
+  '/_authenticated/writing': typeof AuthenticatedWritingRoute
   '/_authenticated/lesson/$lessonId': typeof AuthenticatedLessonLessonIdRoute
 }
 export interface FileRouteTypes {
@@ -127,6 +154,9 @@ export interface FileRouteTypes {
     | '/trial'
     | '/dashboard'
     | '/lessons'
+    | '/speaking'
+    | '/vocabulary'
+    | '/writing'
     | '/lesson/$lessonId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -139,6 +169,9 @@ export interface FileRouteTypes {
     | '/trial'
     | '/dashboard'
     | '/lessons'
+    | '/speaking'
+    | '/vocabulary'
+    | '/writing'
     | '/lesson/$lessonId'
   id:
     | '__root__'
@@ -152,6 +185,9 @@ export interface FileRouteTypes {
     | '/trial'
     | '/_authenticated/dashboard'
     | '/_authenticated/lessons'
+    | '/_authenticated/speaking'
+    | '/_authenticated/vocabulary'
+    | '/_authenticated/writing'
     | '/_authenticated/lesson/$lessonId'
   fileRoutesById: FileRoutesById
 }
@@ -238,6 +274,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLessonsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/speaking': {
+      id: '/_authenticated/speaking'
+      path: '/speaking'
+      fullPath: '/speaking'
+      preLoaderRoute: typeof AuthenticatedSpeakingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vocabulary': {
+      id: '/_authenticated/vocabulary'
+      path: '/vocabulary'
+      fullPath: '/vocabulary'
+      preLoaderRoute: typeof AuthenticatedVocabularyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/writing': {
+      id: '/_authenticated/writing'
+      path: '/writing'
+      fullPath: '/writing'
+      preLoaderRoute: typeof AuthenticatedWritingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/lesson/$lessonId': {
       id: '/_authenticated/lesson/$lessonId'
       path: '/lesson/$lessonId'
@@ -251,12 +308,18 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedLessonsRoute: typeof AuthenticatedLessonsRoute
+  AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
+  AuthenticatedVocabularyRoute: typeof AuthenticatedVocabularyRoute
+  AuthenticatedWritingRoute: typeof AuthenticatedWritingRoute
   AuthenticatedLessonLessonIdRoute: typeof AuthenticatedLessonLessonIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedLessonsRoute: AuthenticatedLessonsRoute,
+  AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
+  AuthenticatedVocabularyRoute: AuthenticatedVocabularyRoute,
+  AuthenticatedWritingRoute: AuthenticatedWritingRoute,
   AuthenticatedLessonLessonIdRoute: AuthenticatedLessonLessonIdRoute,
 }
 
