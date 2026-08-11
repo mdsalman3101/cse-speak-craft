@@ -10,16 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ModulesRouteImport } from './routes/modules'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TrialRouteImport } from './routes/trial'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedLessonsRouteImport } from './routes/_authenticated/lessons'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -52,6 +59,16 @@ const TrialRoute = TrialRouteImport.update({
   path: '/trial',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLessonsRoute = AuthenticatedLessonsRouteImport.update({
+  id: '/lessons',
+  path: '/lessons',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +78,8 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/trial': typeof TrialRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/lessons': typeof AuthenticatedLessonsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,26 +89,25 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/trial': typeof TrialRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/lessons': typeof AuthenticatedLessonsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/modules': typeof ModulesRoute
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/trial': typeof TrialRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/lessons': typeof AuthenticatedLessonsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/auth' | '/modules' | '/resources' | '/roadmap' | '/trial'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    '/' | '/about' | '/auth' | '/modules' | '/resources' | '/roadmap' | '/trial'
-  id:
-    | '__root__'
     | '/'
     | '/about'
     | '/auth'
@@ -97,10 +115,36 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/trial'
+    | '/dashboard'
+    | '/lessons'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/modules'
+    | '/resources'
+    | '/roadmap'
+    | '/trial'
+    | '/dashboard'
+    | '/lessons'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/auth'
+    | '/modules'
+    | '/resources'
+    | '/roadmap'
+    | '/trial'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/lessons'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ModulesRoute: typeof ModulesRoute
@@ -116,6 +160,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -160,11 +211,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrialRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/lessons': {
+      id: '/_authenticated/lessons'
+      path: '/lessons'
+      fullPath: '/lessons'
+      preLoaderRoute: typeof AuthenticatedLessonsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedLessonsRoute: typeof AuthenticatedLessonsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedLessonsRoute: AuthenticatedLessonsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ModulesRoute: ModulesRoute,
