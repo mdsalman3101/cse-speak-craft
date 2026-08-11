@@ -10,19 +10,13 @@ import {
   Headphones,
   Library,
   LineChart,
-  Users,
-  User,
-  Award,
   LogOut,
   Menu,
   X,
   GraduationCap,
-  ClipboardList,
-  Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 const studentLinks = [
@@ -34,14 +28,10 @@ const studentLinks = [
   { to: "/translation", label: "Translation", icon: Languages },
   { to: "/shadowing", label: "Shadowing", icon: Headphones },
   { to: "/progress", label: "Progress", icon: LineChart },
-  { to: "/community", label: "Community", icon: Users },
-  { to: "/certificate", label: "Certificate", icon: Award },
-  { to: "/profile", label: "Profile", icon: User },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const { hasRole } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -66,28 +56,6 @@ export function AppShell({ children }: { children: ReactNode }) {
           {l.label}
         </Link>
       ))}
-      {hasRole("mentor") ? (
-        <Link
-          to="/mentor"
-          onClick={() => setOpen(false)}
-          className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}
-        >
-          <ClipboardList className="size-4" aria-hidden />
-          Mentor area
-        </Link>
-      ) : null}
-      {hasRole("admin") ? (
-        <Link
-          to="/admin"
-          onClick={() => setOpen(false)}
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}
-        >
-          <Shield className="size-4" aria-hidden />
-          Admin area
-        </Link>
-      ) : null}
     </nav>
   );
 
