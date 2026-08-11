@@ -52,9 +52,7 @@ export function SiteNav() {
                 <Link to="/auth">Log in</Link>
               </Button>
               <Button asChild size="sm">
-                <Link to="/auth" search={{ mode: "signup" }}>
-                  Start learning
-                </Link>
+                <Link to="/auth">Start learning</Link>
               </Button>
             </>
           )}
@@ -95,9 +93,7 @@ export function SiteNav() {
                     <Link to="/auth">Log in</Link>
                   </Button>
                   <Button asChild className="flex-1" onClick={() => setOpen(false)}>
-                    <Link to="/auth" search={{ mode: "signup" }}>
-                      Start
-                    </Link>
+                    <Link to="/auth">Start</Link>
                   </Button>
                 </>
               )}
