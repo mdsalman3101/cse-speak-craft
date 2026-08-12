@@ -74,6 +74,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          is_hidden: boolean
           is_question: boolean
           likes: number
           title: string
@@ -84,6 +85,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          is_hidden?: boolean
           is_question?: boolean
           likes?: number
           title: string
@@ -94,6 +96,7 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          is_hidden?: boolean
           is_question?: boolean
           likes?: number
           title?: string
@@ -106,6 +109,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          is_hidden: boolean
           post_id: string
           user_id: string
         }
@@ -113,6 +117,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          is_hidden?: boolean
           post_id: string
           user_id: string
         }
@@ -120,6 +125,7 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          is_hidden?: boolean
           post_id?: string
           user_id?: string
         }
@@ -132,6 +138,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      content_reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          reporter_id: string
+          status: string
+          target_id: string
+          target_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          reporter_id: string
+          status?: string
+          target_id: string
+          target_type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          reporter_id?: string
+          status?: string
+          target_id?: string
+          target_type?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       daily_activity: {
         Row: {
@@ -484,6 +526,35 @@ export type Database = {
         }
         Relationships: []
       }
+      room_members: {
+        Row: {
+          created_at: string
+          id: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_members_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "speaking_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       session_registrations: {
         Row: {
           created_at: string
@@ -512,6 +583,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      speaking_rooms: {
+        Row: {
+          capacity: number
+          created_at: string
+          duration_minutes: number
+          focus: string
+          host_id: string
+          id: string
+          level: string
+          meeting_link: string | null
+          notes: string | null
+          scheduled_at: string
+          status: string
+          title: string
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          duration_minutes?: number
+          focus?: string
+          host_id: string
+          id?: string
+          level?: string
+          meeting_link?: string | null
+          notes?: string | null
+          scheduled_at?: string
+          status?: string
+          title: string
+          topic?: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          duration_minutes?: number
+          focus?: string
+          host_id?: string
+          id?: string
+          level?: string
+          meeting_link?: string | null
+          notes?: string | null
+          scheduled_at?: string
+          status?: string
+          title?: string
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       speaking_submissions: {
         Row: {
