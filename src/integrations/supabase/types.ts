@@ -354,11 +354,14 @@ export type Database = {
           branch: string | null
           college: string | null
           created_at: string
+          current_level: string
           email: string | null
           full_name: string
           id: string
+          learning_goals: string
           target_role: string | null
           updated_at: string
+          weekly_goal_minutes: number
           year_of_study: number | null
         }
         Insert: {
@@ -367,11 +370,14 @@ export type Database = {
           branch?: string | null
           college?: string | null
           created_at?: string
+          current_level?: string
           email?: string | null
           full_name?: string
           id: string
+          learning_goals?: string
           target_role?: string | null
           updated_at?: string
+          weekly_goal_minutes?: number
           year_of_study?: number | null
         }
         Update: {
@@ -380,11 +386,14 @@ export type Database = {
           branch?: string | null
           college?: string | null
           created_at?: string
+          current_level?: string
           email?: string | null
           full_name?: string
           id?: string
+          learning_goals?: string
           target_role?: string | null
           updated_at?: string
+          weekly_goal_minutes?: number
           year_of_study?: number | null
         }
         Relationships: []
