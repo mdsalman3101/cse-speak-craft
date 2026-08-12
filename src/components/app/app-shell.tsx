@@ -28,6 +28,7 @@ const studentLinks = [
   { to: "/translation", label: "Translation", icon: Languages },
   { to: "/shadowing", label: "Shadowing", icon: Headphones },
   { to: "/progress", label: "Progress", icon: LineChart },
+  { to: "/profile", label: "Profile", icon: UserRound },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
