@@ -28,6 +28,7 @@ const studentLinks = [
   { to: "/vocabulary", label: "Vocabulary", icon: Library },
   { to: "/translation", label: "Translation", icon: Languages },
   { to: "/shadowing", label: "Shadowing", icon: Headphones },
+  { to: "/rooms", label: "Speaking rooms", icon: Users },
   { to: "/progress", label: "Progress", icon: LineChart },
   { to: "/profile", label: "Profile", icon: UserRound },
 ] as const;
