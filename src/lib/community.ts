@@ -144,7 +144,9 @@ export const reportsQuery = {
 export const communityProfilesQuery = {
   queryKey: ["community-profiles"],
   queryFn: async (): Promise<Record<string, { name: string; level: string }>> => {
-    const { data, error } = await supabase.from("profiles").select("id, full_name, current_level");
+    const { data, error } = await supabase
+      .from("public_profiles")
+      .select("id, full_name, current_level");
     if (error) throw error;
     const map: Record<string, { name: string; level: string }> = {};
     for (const row of data ?? []) {
