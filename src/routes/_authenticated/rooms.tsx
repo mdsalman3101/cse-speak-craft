@@ -26,6 +26,7 @@ import {
   leaveRoom,
   matchScore,
   roomMembersQuery,
+  roomSeatCountsQuery,
   roomsQuery,
   setRoomStatus,
   type RoomRow,
@@ -67,6 +68,7 @@ function RoomsPage() {
   const qc = useQueryClient();
   const rooms = useQuery(roomsQuery);
   const members = useQuery(roomMembersQuery);
+  const seatCounts = useQuery(roomSeatCountsQuery);
   const profiles = useQuery(communityProfilesQuery);
 
   const myLevelFromProfile = user ? profiles.data?.[user.id]?.level : undefined;
@@ -90,6 +92,7 @@ function RoomsPage() {
   function refresh() {
     void qc.invalidateQueries({ queryKey: roomsQuery.queryKey });
     void qc.invalidateQueries({ queryKey: roomMembersQuery.queryKey });
+    void qc.invalidateQueries({ queryKey: roomSeatCountsQuery.queryKey });
   }
 
   const create = useMutation({
@@ -130,11 +133,7 @@ function RoomsPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const seatsByRoom = useMemo(() => {
-    const map: Record<string, number> = {};
-    for (const m of members.data ?? []) map[m.room_id] = (map[m.room_id] ?? 0) + 1;
-    return map;
-  }, [members.data]);
+  const seatsByRoom = useMemo(() => seatCounts.data ?? {}, [seatCounts.data]);
 
   const myRoomIds = useMemo(
     () => new Set((members.data ?? []).filter((m) => m.user_id === user?.id).map((m) => m.room_id)),
