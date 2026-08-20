@@ -16,9 +16,11 @@ import {
   GraduationCap,
   UserRound,
   Users,
+  ScrollText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 const studentLinks = [
@@ -34,10 +36,14 @@ const studentLinks = [
   { to: "/profile", label: "Profile", icon: UserRound },
 ] as const;
 
+const staffLinks = [{ to: "/audit", label: "Audit log", icon: ScrollText }] as const;
+
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { hasRole } = useAuth();
+  const isStaff = hasRole("mentor") || hasRole("admin");
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -60,6 +66,20 @@ export function AppShell({ children }: { children: ReactNode }) {
           {l.label}
         </Link>
       ))}
+      {isStaff
+        ? staffLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}
+            >
+              <l.icon className="size-4" aria-hidden />
+              {l.label}
+            </Link>
+          ))
+        : null}
     </nav>
   );
 

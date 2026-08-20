@@ -17,6 +17,7 @@ import { Route as ModulesRouteImport } from './routes/modules'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TrialRouteImport } from './routes/trial'
+import { Route as AuthenticatedAuditRouteImport } from './routes/_authenticated/audit'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedLessonsRouteImport } from './routes/_authenticated/lessons'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -67,6 +68,11 @@ const TrialRoute = TrialRouteImport.update({
   id: '/trial',
   path: '/trial',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAuditRoute = AuthenticatedAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/trial': typeof TrialRoute
+  '/audit': typeof AuthenticatedAuditRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lessons': typeof AuthenticatedLessonsRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/trial': typeof TrialRoute
+  '/audit': typeof AuthenticatedAuditRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lessons': typeof AuthenticatedLessonsRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/trial': typeof TrialRoute
+  '/_authenticated/audit': typeof AuthenticatedAuditRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/lessons': typeof AuthenticatedLessonsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/trial'
+    | '/audit'
     | '/dashboard'
     | '/lessons'
     | '/profile'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/trial'
+    | '/audit'
     | '/dashboard'
     | '/lessons'
     | '/profile'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/trial'
+    | '/_authenticated/audit'
     | '/_authenticated/dashboard'
     | '/_authenticated/lessons'
     | '/_authenticated/profile'
@@ -321,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrialRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/audit': {
+      id: '/_authenticated/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuthenticatedAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -402,6 +421,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAuditRoute: typeof AuthenticatedAuditRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedLessonsRoute: typeof AuthenticatedLessonsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -416,6 +436,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAuditRoute: AuthenticatedAuditRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedLessonsRoute: AuthenticatedLessonsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
