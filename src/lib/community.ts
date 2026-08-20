@@ -128,6 +128,20 @@ export const roomMembersQuery = {
   },
 };
 
+/** Seat counts for every room (aggregate only — no member identities). */
+export const roomSeatCountsQuery = {
+  queryKey: ["room-seat-counts"],
+  queryFn: async (): Promise<Record<string, number>> => {
+    const { data, error } = await supabase.rpc("room_seat_counts");
+    if (error) throw error;
+    const map: Record<string, number> = {};
+    for (const row of (data ?? []) as { room_id: string; seats: number }[]) {
+      map[row.room_id] = row.seats;
+    }
+    return map;
+  },
+};
+
 export const reportsQuery = {
   queryKey: ["content-reports"],
   queryFn: async (): Promise<ReportRow[]> => {

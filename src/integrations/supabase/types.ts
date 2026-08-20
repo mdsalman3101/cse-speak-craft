@@ -1023,7 +1023,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_session_meeting_link: {
+        Args: { _session_id: string }
+        Returns: string
+      }
+      room_seat_counts: {
+        Args: never
+        Returns: {
+          room_id: string
+          seats: number
+        }[]
+      }
     }
     Enums: {
       app_role: "student" | "mentor" | "admin"
