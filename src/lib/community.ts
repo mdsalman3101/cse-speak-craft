@@ -142,7 +142,31 @@ export const roomSeatCountsQuery = {
   },
 };
 
+export type RoomActivityRow = {
+  id: string;
+  action: string;
+  category: string;
+  summary: string;
+  actor_id: string | null;
+  actor_name: string;
+  created_at: string;
+};
+
+/** Chronological joins, leaves, host actions and report events for one room. */
+export function roomActivityQuery(roomId: string, enabled = true) {
+  return {
+    queryKey: ["room-activity", roomId],
+    enabled,
+    queryFn: async (): Promise<RoomActivityRow[]> => {
+      const { data, error } = await supabase.rpc("room_activity", { _room_id: roomId });
+      if (error) throw error;
+      return (data ?? []) as unknown as RoomActivityRow[];
+    },
+  };
+}
+
 export const reportsQuery = {
+
   queryKey: ["content-reports"],
   queryFn: async (): Promise<ReportRow[]> => {
     const { data, error } = await supabase
