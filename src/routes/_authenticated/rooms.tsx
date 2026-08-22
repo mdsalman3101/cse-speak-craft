@@ -25,7 +25,9 @@ import {
   joinRoom,
   leaveRoom,
   matchScore,
+  roomActivityQuery,
   roomMembersQuery,
+
   roomSeatCountsQuery,
   roomsQuery,
   setRoomStatus,
@@ -62,6 +64,58 @@ function defaultScheduledAt() {
   d.setSeconds(0, 0);
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 }
+
+const ACTIVITY_LABEL: Record<string, string> = {
+  room_joined: "Joined",
+  room_left: "Left",
+  room_full: "Joining closed",
+  room_open: "Joining reopened",
+  room_done: "Marked done",
+  room_cancelled: "Cancelled",
+};
+
+function activityTone(category: string) {
+  if (category === "report") return "bg-destructive/10 text-destructive";
+  if (category === "membership") return "bg-muted text-muted-foreground";
+  return "bg-primary/10 text-primary";
+}
+
+function RoomTimeline({ roomId }: { roomId: string }) {
+  const activity = useQuery(roomActivityQuery(roomId));
+
+  if (activity.isLoading) {
+    return <p className="text-sm text-muted-foreground">Loading activity…</p>;
+  }
+  if (activity.isError) {
+    return <p className="text-sm text-destructive">Could not load this room&apos;s activity.</p>;
+  }
+  const rows = activity.data ?? [];
+  if (rows.length === 0) {
+    return <p className="text-sm text-muted-foreground">No activity recorded yet.</p>;
+  }
+
+  return (
+    <ol className="relative space-y-4 border-l border-border pl-4">
+      {rows.map((r) => (
+        <li key={r.id} className="space-y-1">
+          <span
+            className="absolute -left-[5px] mt-1.5 size-2 rounded-full bg-primary"
+            aria-hidden
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="secondary" className={activityTone(r.category)}>
+              {ACTIVITY_LABEL[r.action] ?? r.action.replaceAll("_", " ")}
+            </Badge>
+            <span className="text-xs text-muted-foreground">{formatWhen(r.created_at)}</span>
+          </div>
+          <p className="text-sm">{r.summary}</p>
+          <p className="text-xs text-muted-foreground">By {r.actor_name}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 
 function RoomsPage() {
   const { user } = useAuth();
