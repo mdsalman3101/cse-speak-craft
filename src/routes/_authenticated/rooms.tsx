@@ -147,6 +147,8 @@ function RoomsPage() {
     void qc.invalidateQueries({ queryKey: roomsQuery.queryKey });
     void qc.invalidateQueries({ queryKey: roomMembersQuery.queryKey });
     void qc.invalidateQueries({ queryKey: roomSeatCountsQuery.queryKey });
+    void qc.invalidateQueries({ queryKey: ["room-activity"] });
+
   }
 
   const create = useMutation({
@@ -306,8 +308,25 @@ function RoomsPage() {
                 </Button>
               </>
             ) : null}
+
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-expanded={timelineOpen.has(room.id)}
+              onClick={() => toggleTimeline(room.id)}
+            >
+              {timelineOpen.has(room.id) ? "Hide activity" : "Activity timeline"}
+            </Button>
           </div>
+
+          {timelineOpen.has(room.id) ? (
+            <div className="rounded-lg border border-border p-4">
+              <h3 className="mb-3 text-sm font-medium">Room activity</h3>
+              <RoomTimeline roomId={room.id} />
+            </div>
+          ) : null}
         </CardContent>
+
       </Card>
     );
   }
