@@ -23,6 +23,7 @@ import { Route as AuthenticatedLessonsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgressRouteImport } from './routes/_authenticated/progress'
 import { Route as AuthenticatedRoomsRouteImport } from './routes/_authenticated/rooms'
+import { Route as AuthenticatedSessionsRouteImport } from './routes/_authenticated/sessions'
 import { Route as AuthenticatedShadowingRouteImport } from './routes/_authenticated/shadowing'
 import { Route as AuthenticatedSpeakingRouteImport } from './routes/_authenticated/speaking'
 import { Route as AuthenticatedTranslationRouteImport } from './routes/_authenticated/translation'
@@ -99,6 +100,11 @@ const AuthenticatedRoomsRoute = AuthenticatedRoomsRouteImport.update({
   path: '/rooms',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSessionsRoute = AuthenticatedSessionsRouteImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedShadowingRoute = AuthenticatedShadowingRouteImport.update({
   id: '/shadowing',
   path: '/shadowing',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/progress': typeof AuthenticatedProgressRoute
   '/rooms': typeof AuthenticatedRoomsRoute
+  '/sessions': typeof AuthenticatedSessionsRoute
   '/shadowing': typeof AuthenticatedShadowingRoute
   '/speaking': typeof AuthenticatedSpeakingRoute
   '/translation': typeof AuthenticatedTranslationRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/progress': typeof AuthenticatedProgressRoute
   '/rooms': typeof AuthenticatedRoomsRoute
+  '/sessions': typeof AuthenticatedSessionsRoute
   '/shadowing': typeof AuthenticatedShadowingRoute
   '/speaking': typeof AuthenticatedSpeakingRoute
   '/translation': typeof AuthenticatedTranslationRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/progress': typeof AuthenticatedProgressRoute
   '/_authenticated/rooms': typeof AuthenticatedRoomsRoute
+  '/_authenticated/sessions': typeof AuthenticatedSessionsRoute
   '/_authenticated/shadowing': typeof AuthenticatedShadowingRoute
   '/_authenticated/speaking': typeof AuthenticatedSpeakingRoute
   '/_authenticated/translation': typeof AuthenticatedTranslationRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/rooms'
+    | '/sessions'
     | '/shadowing'
     | '/speaking'
     | '/translation'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/rooms'
+    | '/sessions'
     | '/shadowing'
     | '/speaking'
     | '/translation'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/progress'
     | '/_authenticated/rooms'
+    | '/_authenticated/sessions'
     | '/_authenticated/shadowing'
     | '/_authenticated/speaking'
     | '/_authenticated/translation'
@@ -375,6 +387,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRoomsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/sessions': {
+      id: '/_authenticated/sessions'
+      path: '/sessions'
+      fullPath: '/sessions'
+      preLoaderRoute: typeof AuthenticatedSessionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/shadowing': {
       id: '/_authenticated/shadowing'
       path: '/shadowing'
@@ -427,6 +446,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgressRoute: typeof AuthenticatedProgressRoute
   AuthenticatedRoomsRoute: typeof AuthenticatedRoomsRoute
+  AuthenticatedSessionsRoute: typeof AuthenticatedSessionsRoute
   AuthenticatedShadowingRoute: typeof AuthenticatedShadowingRoute
   AuthenticatedSpeakingRoute: typeof AuthenticatedSpeakingRoute
   AuthenticatedTranslationRoute: typeof AuthenticatedTranslationRoute
@@ -442,6 +462,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgressRoute: AuthenticatedProgressRoute,
   AuthenticatedRoomsRoute: AuthenticatedRoomsRoute,
+  AuthenticatedSessionsRoute: AuthenticatedSessionsRoute,
   AuthenticatedShadowingRoute: AuthenticatedShadowingRoute,
   AuthenticatedSpeakingRoute: AuthenticatedSpeakingRoute,
   AuthenticatedTranslationRoute: AuthenticatedTranslationRoute,

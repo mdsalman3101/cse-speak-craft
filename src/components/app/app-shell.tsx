@@ -17,6 +17,7 @@ import {
   UserRound,
   Users,
   ScrollText,
+  CalendarDays,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,6 +33,7 @@ const studentLinks = [
   { to: "/translation", label: "Translation", icon: Languages },
   { to: "/shadowing", label: "Shadowing", icon: Headphones },
   { to: "/rooms", label: "Speaking rooms", icon: Users },
+  { to: "/sessions", label: "Live sessions", icon: CalendarDays },
   { to: "/progress", label: "Progress", icon: LineChart },
   { to: "/profile", label: "Profile", icon: UserRound },
 ] as const;
