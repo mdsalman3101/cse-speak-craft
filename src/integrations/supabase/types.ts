@@ -1042,6 +1042,18 @@ export type Database = {
         Args: { _session_id: string }
         Returns: string
       }
+      room_activity: {
+        Args: { _room_id: string }
+        Returns: {
+          action: string
+          actor_id: string
+          actor_name: string
+          category: string
+          created_at: string
+          id: string
+          summary: string
+        }[]
+      }
       room_seat_counts: {
         Args: never
         Returns: {
