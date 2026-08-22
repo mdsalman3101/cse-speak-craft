@@ -131,6 +131,17 @@ function RoomsPage() {
   const [topic, setTopic] = useState<string>(ROOM_TOPICS[0]);
   const myLevel = level || myLevelFromProfile || "beginner";
 
+  const [timelineOpen, setTimelineOpen] = useState<Set<string>>(() => new Set());
+  function toggleTimeline(id: string) {
+    setTimelineOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+
   const [form, setForm] = useState({
     title: "",
     topic: ROOM_TOPICS[0] as string,
