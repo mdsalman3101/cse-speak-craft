@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/use-auth";
+import { exportActivityCsv, exportActivityPdf } from "@/lib/export-activity";
+
 import {
   ROOM_FOCUS,
   ROOM_LEVELS,
