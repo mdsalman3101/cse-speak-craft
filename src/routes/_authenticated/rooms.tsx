@@ -99,11 +99,16 @@ const FILTER_CONFIG: { key: FilterKey; label: string; test: (r: RoomActivityRow)
   { key: "reports", label: "Reports", test: (r) => r.category === "report" },
 ];
 
-function RoomTimeline({ roomId }: { roomId: string }) {
+function activityLabel(r: RoomActivityRow) {
+  return ACTIVITY_LABEL[r.action] ?? r.action.replaceAll("_", " ");
+}
+
+function RoomTimeline({ roomId, roomTitle }: { roomId: string; roomTitle: string }) {
   const activity = useQuery(roomActivityQuery(roomId));
   const [visible, setVisible] = useState<Set<FilterKey>>(
     () => new Set(FILTER_CONFIG.map((f) => f.key))
   );
+
 
   if (activity.isLoading) {
     return <p className="text-sm text-muted-foreground">Loading activity…</p>;
