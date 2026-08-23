@@ -27,12 +27,13 @@ import {
   matchScore,
   roomActivityQuery,
   roomMembersQuery,
-
   roomSeatCountsQuery,
   roomsQuery,
   setRoomStatus,
+  type RoomActivityRow,
   type RoomRow,
 } from "@/lib/community";
+
 
 export const Route = createFileRoute("/_authenticated/rooms")({
   head: () => ({
