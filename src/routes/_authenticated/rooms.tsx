@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/use-auth";
+import { exportActivityCsv, exportActivityPdf } from "@/lib/export-activity";
+
 import {
   ROOM_FOCUS,
   ROOM_LEVELS,
@@ -99,11 +101,16 @@ const FILTER_CONFIG: { key: FilterKey; label: string; test: (r: RoomActivityRow)
   { key: "reports", label: "Reports", test: (r) => r.category === "report" },
 ];
 
-function RoomTimeline({ roomId }: { roomId: string }) {
+function activityLabel(r: RoomActivityRow) {
+  return ACTIVITY_LABEL[r.action] ?? r.action.replaceAll("_", " ");
+}
+
+function RoomTimeline({ roomId, roomTitle }: { roomId: string; roomTitle: string }) {
   const activity = useQuery(roomActivityQuery(roomId));
   const [visible, setVisible] = useState<Set<FilterKey>>(
     () => new Set(FILTER_CONFIG.map((f) => f.key))
   );
+
 
   if (activity.isLoading) {
     return <p className="text-sm text-muted-foreground">Loading activity…</p>;
@@ -144,6 +151,31 @@ function RoomTimeline({ roomId }: { roomId: string }) {
           );
         })}
       </div>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs text-muted-foreground">
+          {filtered.length} event{filtered.length === 1 ? "" : "s"} shown
+        </span>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={filtered.length === 0}
+          onClick={() => exportActivityCsv(filtered, activityLabel, roomTitle)}
+        >
+          Export CSV
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={filtered.length === 0}
+          onClick={() => void exportActivityPdf(filtered, activityLabel, roomTitle)}
+        >
+          Export PDF
+        </Button>
+      </div>
+
 
       {filtered.length === 0 ? (
         <p className="text-sm text-muted-foreground">No activity matches the selected filters.</p>
@@ -409,7 +441,7 @@ function RoomsPage() {
           {timelineOpen.has(room.id) ? (
             <div className="rounded-lg border border-border p-4">
               <h3 className="mb-3 text-sm font-medium">Room activity</h3>
-              <RoomTimeline roomId={room.id} />
+              <RoomTimeline roomId={room.id} roomTitle={room.topic} />
             </div>
           ) : null}
         </CardContent>
