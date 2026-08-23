@@ -414,7 +414,7 @@ function RoomsPage() {
           {timelineOpen.has(room.id) ? (
             <div className="rounded-lg border border-border p-4">
               <h3 className="mb-3 text-sm font-medium">Room activity</h3>
-              <RoomTimeline roomId={room.id} />
+              <RoomTimeline roomId={room.id} roomTitle={room.topic} />
             </div>
           ) : null}
         </CardContent>
