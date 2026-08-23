@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -216,6 +217,26 @@ function RoomsPage() {
     void qc.invalidateQueries({ queryKey: ["room-activity"] });
 
   }
+
+  useEffect(() => {
+    const invalidate = () => {
+      void qc.invalidateQueries({ queryKey: ["room-activity"] });
+      void qc.invalidateQueries({ queryKey: roomsQuery.queryKey });
+      void qc.invalidateQueries({ queryKey: roomMembersQuery.queryKey });
+      void qc.invalidateQueries({ queryKey: roomSeatCountsQuery.queryKey });
+    };
+    const channel = supabase
+      .channel("room-activity-live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "room_members" }, invalidate)
+      .on("postgres_changes", { event: "*", schema: "public", table: "speaking_rooms" }, invalidate)
+      .on("postgres_changes", { event: "*", schema: "public", table: "content_reports" }, invalidate)
+      .on("postgres_changes", { event: "*", schema: "public", table: "audit_log" }, invalidate)
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [qc]);
+
 
   const create = useMutation({
     mutationFn: createRoom,
