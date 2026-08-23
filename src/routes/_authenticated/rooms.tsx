@@ -83,11 +83,18 @@ function activityTone(category: string) {
 
 type FilterKey = "joins" | "leaves" | "hostActions" | "reports";
 
-const FILTER_CONFIG: { key: FilterKey; label: string; test: (r: ActivityRow) => boolean }[] = [
+const FILTER_CONFIG: { key: FilterKey; label: string; test: (r: RoomActivityRow) => boolean }[] = [
   { key: "joins", label: "Joins", test: (r) => r.action === "room_joined" },
   { key: "leaves", label: "Leaves", test: (r) => r.action === "room_left" },
-  { key: "hostActions", label: "Host actions", test: (r) =>
-      r.action === "room_full" || r.action === "room_open" || r.action === "room_done" || r.action === "room_cancelled" },
+  {
+    key: "hostActions",
+    label: "Host actions",
+    test: (r) =>
+      r.action === "room_full" ||
+      r.action === "room_open" ||
+      r.action === "room_done" ||
+      r.action === "room_cancelled",
+  },
   { key: "reports", label: "Reports", test: (r) => r.category === "report" },
 ];
 
