@@ -27,12 +27,13 @@ import {
   matchScore,
   roomActivityQuery,
   roomMembersQuery,
-
   roomSeatCountsQuery,
   roomsQuery,
   setRoomStatus,
+  type RoomActivityRow,
   type RoomRow,
 } from "@/lib/community";
+
 
 export const Route = createFileRoute("/_authenticated/rooms")({
   head: () => ({
@@ -80,8 +81,28 @@ function activityTone(category: string) {
   return "bg-primary/10 text-primary";
 }
 
+type FilterKey = "joins" | "leaves" | "hostActions" | "reports";
+
+const FILTER_CONFIG: { key: FilterKey; label: string; test: (r: RoomActivityRow) => boolean }[] = [
+  { key: "joins", label: "Joins", test: (r) => r.action === "room_joined" },
+  { key: "leaves", label: "Leaves", test: (r) => r.action === "room_left" },
+  {
+    key: "hostActions",
+    label: "Host actions",
+    test: (r) =>
+      r.action === "room_full" ||
+      r.action === "room_open" ||
+      r.action === "room_done" ||
+      r.action === "room_cancelled",
+  },
+  { key: "reports", label: "Reports", test: (r) => r.category === "report" },
+];
+
 function RoomTimeline({ roomId }: { roomId: string }) {
   const activity = useQuery(roomActivityQuery(roomId));
+  const [visible, setVisible] = useState<Set<FilterKey>>(
+    () => new Set(FILTER_CONFIG.map((f) => f.key))
+  );
 
   if (activity.isLoading) {
     return <p className="text-sm text-muted-foreground">Loading activity…</p>;
@@ -94,27 +115,61 @@ function RoomTimeline({ roomId }: { roomId: string }) {
     return <p className="text-sm text-muted-foreground">No activity recorded yet.</p>;
   }
 
+  const filtered = rows.filter((r) => FILTER_CONFIG.some((f) => visible.has(f.key) && f.test(r)));
+
   return (
-    <ol className="relative space-y-4 border-l border-border pl-4">
-      {rows.map((r) => (
-        <li key={r.id} className="space-y-1">
-          <span
-            className="absolute -left-[5px] mt-1.5 size-2 rounded-full bg-primary"
-            aria-hidden
-          />
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="secondary" className={activityTone(r.category)}>
-              {ACTIVITY_LABEL[r.action] ?? r.action.replaceAll("_", " ")}
-            </Badge>
-            <span className="text-xs text-muted-foreground">{formatWhen(r.created_at)}</span>
-          </div>
-          <p className="text-sm">{r.summary}</p>
-          <p className="text-xs text-muted-foreground">By {r.actor_name}</p>
-        </li>
-      ))}
-    </ol>
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-2">
+        {FILTER_CONFIG.map((f) => {
+          const active = visible.has(f.key);
+          return (
+            <Button
+              key={f.key}
+              type="button"
+              size="sm"
+              variant={active ? "default" : "outline"}
+              aria-pressed={active}
+              onClick={() =>
+                setVisible((prev) => {
+                  const next = new Set(prev);
+                  if (next.has(f.key)) next.delete(f.key);
+                  else next.add(f.key);
+                  return next;
+                })
+              }
+            >
+              {active ? "✓" : "○"} {f.label}
+            </Button>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 ? (
+        <p className="text-sm text-muted-foreground">No activity matches the selected filters.</p>
+      ) : (
+        <ol className="relative space-y-4 border-l border-border pl-4">
+          {filtered.map((r) => (
+            <li key={r.id} className="space-y-1">
+              <span
+                className="absolute -left-[5px] mt-1.5 size-2 rounded-full bg-primary"
+                aria-hidden
+              />
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="secondary" className={activityTone(r.category)}>
+                  {ACTIVITY_LABEL[r.action] ?? r.action.replaceAll("_", " ")}
+                </Badge>
+                <span className="text-xs text-muted-foreground">{formatWhen(r.created_at)}</span>
+              </div>
+              <p className="text-sm">{r.summary}</p>
+              <p className="text-xs text-muted-foreground">By {r.actor_name}</p>
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
   );
 }
+
 
 
 function RoomsPage() {
