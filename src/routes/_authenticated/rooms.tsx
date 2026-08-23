@@ -150,6 +150,31 @@ function RoomTimeline({ roomId, roomTitle }: { roomId: string; roomTitle: string
         })}
       </div>
 
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs text-muted-foreground">
+          {filtered.length} event{filtered.length === 1 ? "" : "s"} shown
+        </span>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={filtered.length === 0}
+          onClick={() => exportActivityCsv(filtered, activityLabel, roomTitle)}
+        >
+          Export CSV
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={filtered.length === 0}
+          onClick={() => void exportActivityPdf(filtered, activityLabel, roomTitle)}
+        >
+          Export PDF
+        </Button>
+      </div>
+
+
       {filtered.length === 0 ? (
         <p className="text-sm text-muted-foreground">No activity matches the selected filters.</p>
       ) : (
