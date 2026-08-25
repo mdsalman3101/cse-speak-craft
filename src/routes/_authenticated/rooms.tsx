@@ -111,7 +111,7 @@ function RoomTimeline({ roomId, roomTitle }: { roomId: string; roomTitle: string
   const [visible, setVisible] = useState<Set<FilterKey>>(
     () => new Set(FILTER_CONFIG.map((f) => f.key))
   );
-
+  const [query, setQuery] = useState("");
 
   if (activity.isLoading) {
     return <p className="text-sm text-muted-foreground">Loading activity…</p>;
@@ -124,33 +124,64 @@ function RoomTimeline({ roomId, roomTitle }: { roomId: string; roomTitle: string
     return <p className="text-sm text-muted-foreground">No activity recorded yet.</p>;
   }
 
-  const filtered = rows.filter((r) => FILTER_CONFIG.some((f) => visible.has(f.key) && f.test(r)));
+  const normalizedQuery = query.trim().toLowerCase();
+  const filtered = rows.filter((r) => {
+    const matchesFilter = FILTER_CONFIG.some((f) => visible.has(f.key) && f.test(r));
+    if (!matchesFilter) return false;
+    if (!normalizedQuery) return true;
+    const haystack = `${r.actor_name} ${r.summary} ${activityLabel(r)}`.toLowerCase();
+    return haystack.includes(normalizedQuery);
+  });
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
-        {FILTER_CONFIG.map((f) => {
-          const active = visible.has(f.key);
-          return (
-            <Button
-              key={f.key}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative flex-1">
+          <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search by user or keyword…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="pl-9"
+            aria-label="Search room activity"
+          />
+          {query ? (
+            <button
               type="button"
-              size="sm"
-              variant={active ? "default" : "outline"}
-              aria-pressed={active}
-              onClick={() =>
-                setVisible((prev) => {
-                  const next = new Set(prev);
-                  if (next.has(f.key)) next.delete(f.key);
-                  else next.add(f.key);
-                  return next;
-                })
-              }
+              onClick={() => setQuery("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Clear search"
             >
-              {active ? "✓" : "○"} {f.label}
-            </Button>
-          );
-        })}
+              <X className="size-4" />
+            </button>
+          ) : null}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {FILTER_CONFIG.map((f) => {
+            const active = visible.has(f.key);
+            return (
+              <Button
+                key={f.key}
+                type="button"
+                size="sm"
+                variant={active ? "default" : "outline"}
+                aria-pressed={active}
+                onClick={() =>
+                  setVisible((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(f.key)) next.delete(f.key);
+                    else next.add(f.key);
+                    return next;
+                  })
+                }
+              >
+                {active ? "✓" : "○"} {f.label}
+              </Button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -179,7 +210,7 @@ function RoomTimeline({ roomId, roomTitle }: { roomId: string; roomTitle: string
 
 
       {filtered.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No activity matches the selected filters.</p>
+        <p className="text-sm text-muted-foreground">No activity matches your search.</p>
       ) : (
         <ol className="relative space-y-4 border-l border-border pl-4">
           {filtered.map((r) => (
