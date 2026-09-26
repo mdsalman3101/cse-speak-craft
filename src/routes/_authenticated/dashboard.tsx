@@ -121,7 +121,7 @@ function Dashboard() {
             <Target className="size-5" /> Six-month program
           </CardTitle>
           <CardDescription>
-            You are in week {currentWeek} of {PROGRAM_WEEKS} · {programPct% of the journey complete
+            You are in week {currentWeek} of {PROGRAM_WEEKS} · {programPct}% of the journey complete
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
